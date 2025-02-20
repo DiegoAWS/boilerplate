@@ -1,0 +1,13 @@
+name: Deploy My Project
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    uses: DiegoAWS/deploy-workflows/.github/workflows/deploy.yml@main
+    with:
+      repo_url: "git@github.com:DiegoAWS/sign-pdf.git"
+      project_dir: "/home/diego/code/sign-pdf"
+      app_name: "sign-pdf"
+      port: 3001
