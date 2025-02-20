@@ -56,7 +56,7 @@ jobs:
             npm run build
 
             # Stop previous PM2 process (if it exists)
-            pm2 stop my-app || true
+            pm2 stop boilerplate || true
 
             # Start the app with PM2 (add port if needed, e.g., -- start -p 3000)
-            pm2 start npm --name "my-app" -- start -p port
+            pm2 start npm --name "boilerplate" -- start -p port
