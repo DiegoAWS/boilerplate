@@ -17,16 +17,17 @@ jobs:
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code"
             REPO_URL="https://github.com/${GITHUB_REPOSITORY}.git"
-
-            # Check if project directory exists and is not empty
-            if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A $PROJECT_DIR)" ]; then
-              mkdir -p "$PROJECT_DIR"
-              cd "$PROJECT_DIR"
-              git clone "$REPO_URL" .
-            fi
+            echo "PROJECT_DIR: $PROJECT_DIR"
+            echo "REPO_URL: $REPO_URL"
 
             # Navigate to project directory
             cd "$PROJECT_DIR"
+
+            # Check if project directory exists and is not empty
+            if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A $PROJECT_DIR)" ]; then
+              echo "Cloning repository"
+              git clone "$REPO_URL" 
+            fi
 
             # Pull latest changes
             git pull origin main
