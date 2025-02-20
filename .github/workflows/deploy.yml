@@ -15,7 +15,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             # Define project directory and repo URL
-            PROJECT_DIR="/path/to/your/project"
+            PROJECT_DIR="/home/diego/code"
             REPO_URL="git@github.com:yourusername/your-repo.git"
 
             # Check if project directory exists and is not empty
