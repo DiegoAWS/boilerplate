@@ -16,18 +16,20 @@ jobs:
           script: |
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code"
-            REPO_URL="git@github.com:$GITHUB_REPOSITORY.git"
+            REPO_URL="https://github.com/${GITHUB_REPOSITORY}.git"
 
             # Check if project directory exists and is not empty
             if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A $PROJECT_DIR)" ]; then
-              git clone "$REPO_URL" "$PROJECT_DIR"
+              mkdir -p "$PROJECT_DIR"
+              cd "$PROJECT_DIR"
+              git clone "$REPO_URL" .
             fi
 
             # Navigate to project directory
             cd "$PROJECT_DIR"
 
-            # Pull latest changes (if already cloned)
-            git pull origin master
+            # Pull latest changes
+            git pull origin main
 
             # Install dependencies
             npm install
@@ -42,4 +44,4 @@ jobs:
             pm2 stop my-app || true
 
             # Start the app with PM2
-            pm2 start npm --name "my-app" -- start -p port
+            pm2 start npm --name "my-app" -- start
