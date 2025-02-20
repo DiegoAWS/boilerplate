@@ -16,7 +16,7 @@ jobs:
           script: |
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code"
-            REPO_URL="git@github.com:yourusername/your-repo.git"
+            REPO_URL="git@github.com:$GITHUB_REPOSITORY.git"
 
             # Check if project directory exists and is not empty
             if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A $PROJECT_DIR)" ]; then
