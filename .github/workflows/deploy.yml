@@ -7,6 +7,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if secrets are set
+        run: |
+          echo "VPS_HOST: ${{ secrets.VPS_HOST }}"
+          echo "VPS_USERNAME: ${{ secrets.VPS_USERNAME }}"
+          echo "VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}"
+          echo "GITHUB_REPOSITORY: ${{ github.repository }}"
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
@@ -19,6 +25,9 @@ jobs:
             REPO_URL="git@github.com:${{ github.repository }}.git"
             echo "PROJECT_DIR: $PROJECT_DIR"
             echo "REPO_URL: $REPO_URL"
+            echo "PATH: $PATH"
+            which npm
+            which pm2
 
             # Set PATH explicitly (adjust these based on 'which npm' and 'which pm2')
             export PATH="$PATH:/home/diego/.nvm/versions/node/v20.11.0/bin:/usr/local/bin"
