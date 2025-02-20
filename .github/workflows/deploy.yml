@@ -53,6 +53,7 @@ jobs:
 
             # Stop previous PM2 process (if it exists)
             pm2 stop boilerplate || true
+            pm2 delete boilerplate || true
 
             # Start the app with PM2 (add port if needed, e.g., -- start -p 3000)
             pm2 start npm --name "boilerplate" -- start -p port
