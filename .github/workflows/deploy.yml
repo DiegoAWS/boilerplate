@@ -23,9 +23,7 @@ jobs:
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code/test-clone"
             REPO_URL="git@github.com:${{ github.repository }}.git"
-            echo "PROJECT_DIR: $PROJECT_DIR"
-            echo "REPO_URL: $REPO_URL"
-            echo "PATH: $PATH"
+
              [ -s "/home/diego/.nvm/nvm.sh" ] && . "/home/diego/.nvm/nvm.sh"
 
             which npm
@@ -43,13 +41,11 @@ jobs:
 
             # Fetch and reset to match remote main branch
             git fetch origin
-            git reset --hard origin/main
+             git reset --hard origin/main
 
-            echo "PATH: $PATH"
-            which npm
-            which pm2
-
-            # Install dependencies
+            # Clean install dependencies
+            rm -rf node_modules || true
+            rm -f package-lock.json || true
             npm install
 
             # Build the project
