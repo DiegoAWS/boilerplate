@@ -26,13 +26,10 @@ jobs:
             echo "PROJECT_DIR: $PROJECT_DIR"
             echo "REPO_URL: $REPO_URL"
             echo "PATH: $PATH"
+             [ -s "/home/diego/.nvm/nvm.sh" ] && . "/home/diego/.nvm/nvm.sh"
+
             which npm
             which pm2
-
-            # Set PATH explicitly (adjust these based on 'which npm' and 'which pm2')
-            export PATH="$PATH:/home/diego/.nvm/versions/node/v20.11.0/bin:/usr/local/bin"
-            # If using nvm, source it (uncomment if needed)
-            # [ -s "/home/diego/.nvm/nvm.sh" ] && . "/home/diego/.nvm/nvm.sh"
 
             # Check if project directory exists and is not empty
             if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A "$PROJECT_DIR")" ]; then
