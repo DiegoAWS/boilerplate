@@ -15,19 +15,23 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             # Define project directory and repo URL
-            PROJECT_DIR="/home/diego/code/"
-            REPO_URL="https://github.com/${{ github.repository }}.git"
+            PROJECT_DIR="/home/diego/code/test-clone"
+            REPO_URL="git@github.com:${{ github.repository }}.git"  # Use SSH URL
             echo "PROJECT_DIR: $PROJECT_DIR"
             echo "REPO_URL: $REPO_URL"
 
-            # Navigate to project directory
-            cd "$PROJECT_DIR"
+            # Set PATH to include npm and pm2 (adjust based on your VPS setup)
+            export PATH="$PATH:/usr/local/bin:/home/diego/.nvm/versions/node/v*/bin"
 
             # Check if project directory exists and is not empty
-            if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A $PROJECT_DIR)" ]; then
+            if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A "$PROJECT_DIR")" ]; then
               echo "Cloning repository"
-              git clone "$REPO_URL" 
+              mkdir -p "$PROJECT_DIR"
+              git clone "$REPO_URL" "$PROJECT_DIR" || exit 1  # Exit if clone fails
             fi
+
+            # Navigate to project directory
+            cd "$PROJECT_DIR" || exit 1  # Exit if cd fails
 
             # Pull latest changes
             git pull origin main
@@ -38,11 +42,11 @@ jobs:
             # Build the project
             npm run build
 
-            # Clean up node_modules to save space
+            # Clean up node_modules to save space (optional, remove if needed at runtime)
             rm -rf node_modules
 
             # Stop previous PM2 process (if it exists)
             pm2 stop my-app || true
 
-            # Start the app with PM2
-            pm2 start npm --name "my-app" -- start
+            # Start the app with PM2 (add port if needed, e.g., -- start -p 3000)
+            pm2 start npm --name "my-app" -- start -p port
