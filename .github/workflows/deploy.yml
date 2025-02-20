@@ -39,14 +39,15 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
+            echo "PATH: $PATH"
+            which npm
+            which pm2
+
             # Install dependencies
             npm install
 
             # Build the project
             npm run build
-
-            # Clean up node_modules to save space (optional, remove if needed at runtime)
-            rm -rf node_modules
 
             # Stop previous PM2 process (if it exists)
             pm2 stop my-app || true
