@@ -16,7 +16,7 @@ jobs:
           script: |
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code"
-            REPO_URL="https://github.com/${GITHUB_REPOSITORY}.git"
+            REPO_URL="https://github.com/$GITHUB_REPOSITORY.git"
             echo "PROJECT_DIR: $PROJECT_DIR"
             echo "REPO_URL: $REPO_URL"
 
