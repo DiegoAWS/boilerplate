@@ -16,25 +16,28 @@ jobs:
           script: |
             # Define project directory and repo URL
             PROJECT_DIR="/home/diego/code/test-clone"
-            REPO_URL="git@github.com:${{ github.repository }}.git"  # Use SSH URL
+            REPO_URL="git@github.com:${{ github.repository }}.git"
             echo "PROJECT_DIR: $PROJECT_DIR"
             echo "REPO_URL: $REPO_URL"
 
-            # Set PATH to include npm and pm2 (adjust based on your VPS setup)
-            export PATH="$PATH:/usr/local/bin:/home/diego/.nvm/versions/node/v*/bin"
+            # Set PATH explicitly (adjust these based on 'which npm' and 'which pm2')
+            export PATH="$PATH:/home/diego/.nvm/versions/node/v20.11.0/bin:/usr/local/bin"
+            # If using nvm, source it (uncomment if needed)
+            # [ -s "/home/diego/.nvm/nvm.sh" ] && . "/home/diego/.nvm/nvm.sh"
 
             # Check if project directory exists and is not empty
             if [ ! -d "$PROJECT_DIR" ] || [ -z "$(ls -A "$PROJECT_DIR")" ]; then
               echo "Cloning repository"
               mkdir -p "$PROJECT_DIR"
-              git clone "$REPO_URL" "$PROJECT_DIR" || exit 1  # Exit if clone fails
+              git clone "$REPO_URL" "$PROJECT_DIR" || exit 1
             fi
 
             # Navigate to project directory
-            cd "$PROJECT_DIR" || exit 1  # Exit if cd fails
+            cd "$PROJECT_DIR" || exit 1
 
-            # Pull latest changes
-            git pull origin main
+            # Fetch and reset to match remote main branch
+            git fetch origin
+            git reset --hard origin/main
 
             # Install dependencies
             npm install
