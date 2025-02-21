@@ -6,6 +6,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Skip entire job if repository is DiegoAWS/boilerplate
+    if: github.repository != 'DiegoAWS/boilerplate'
     steps:
       - name: Check if secrets are set
         run: |
